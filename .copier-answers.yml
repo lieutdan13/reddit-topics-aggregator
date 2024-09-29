@@ -1,0 +1,17 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_src_path: C:\Users\dansc\projects\python-project-template\venv\Lib\site-packages\init_python_project
+author: Dan Schaefer
+bumpversion: true
+default_branch: main
+docs: sphinx
+docs_template: none
+email_address: danschaefer@gmail.com
+organization: Dan Schaefer
+package_name: reddit_topics_aggregator
+precommit: true
+project_description: Reddit Topics Aggregator is a tool that uses the Reddit API to
+    gather information from different subreddits to create a summary of topics
+project_name: Reddit Topics Aggregator
+remote: github
+remote_url: git@github.com:lieutdan13/reddit-topics-aggregator.git
+user_name: lieutdan13
