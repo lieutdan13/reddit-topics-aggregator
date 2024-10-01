@@ -38,7 +38,7 @@ readme = "README.md" # optional
 # 'Programming Language' classifiers above, 'pip install' will check this
 # and refuse to install the project if the version does not match. See
 # https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 
 # Name or names of the individual or organization which originally authored
 # the project, and a valid email address corresponding to the name listed.
@@ -129,3 +129,13 @@ max-complexity = 5
 [lint.per-file-ignores]
 "__init__.py" = ["E402"]
 "docs/source/conf.py" = ["E402"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py310, py311, p312
+
+[testenv]
+deps = pytest
+commands = pytest
+"""

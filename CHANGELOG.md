@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - unit tests now run on Python 3.10, 3.11, and 3.12 in GitHub
+- tox configuration added to run locally
 
 ### Fixed
 

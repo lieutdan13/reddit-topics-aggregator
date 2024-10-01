@@ -16,6 +16,11 @@ coverage:	## collect coverage data and open report in browser
 coverage-ci:
 	@CI=true "$(MAKE)" coverage
 
+.PHONY: compatibility tox
+compatibility:	## run a Python version compatibility test
+tox:
+	@tox
+
 .PHONY: lint
 lint:	## run static code checks
 	@ruff check src tests
