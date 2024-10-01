@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install project (including test requirements)
@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Build maintainability badge
@@ -56,8 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install doc requirements
@@ -77,9 +77,9 @@ jobs:
     needs: [coverage, maintainability, docs]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5
       - uses: actions/download-artifact@master
         with:
           path: public
@@ -88,9 +88,9 @@ jobs:
       - run: mv public/coverage/coverage.svg public/badges/.
       - run: mv public/docs/* public/. && rm -r public/docs || echo "no documentation found!"
       - name: Upload Pages
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: public
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
