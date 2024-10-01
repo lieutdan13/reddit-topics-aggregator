@@ -32,8 +32,14 @@ jobs:
       - run: coverage xml
       - run: pip install genbadge[coverage]
       - run: genbadge coverage -i coverage.xml -o build/coverage/coverage.svg
+      - name: Upload Artifact ${{ matrix.python-version }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.python-version }}
+          path: build/coverage
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
+        if: matrix.python-version == "3.12"
         with:
           name: coverage
           path: build/coverage
