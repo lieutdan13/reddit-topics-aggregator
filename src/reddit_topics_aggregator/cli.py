@@ -2,9 +2,13 @@ import click
 
 
 @click.group(invoke_without_command=True)
-@click.version_option(message="%(version)s", package_name="reddit-topics-aggregator")
+@click.version_option(
+    message="%(version)s", package_name="reddit-topics-aggregator"
+)
 @click.argument("input_str", required=False)
-@click.option("--capitalize", is_flag=True, required=False, help="Capitalize string")
+@click.option(
+    "--capitalize", is_flag=True, required=False, help="Capitalize string"
+)
 def main(input_str: str | None = None, capitalize: bool = False):
     """Entry point for the application script.
 
@@ -22,4 +26,6 @@ def main(input_str: str | None = None, capitalize: bool = False):
     if capitalize:
         result = result.upper()
 
-    click.echo(f"{input_str} --reverse{'+capitalize' if capitalize else ''}-> {result}")
+    click.echo(
+        f"{input_str} --reverse{'+capitalize' if capitalize else ''}-> {result}"
+    )

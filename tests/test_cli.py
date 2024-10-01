@@ -29,6 +29,12 @@ def test_cli_reverse(cli: FunctionType):
     assert cli(["Foo"]).output.rstrip().endswith("ooF")
 
 
-@pytest.mark.parametrize("input_str,expected_output", [("Foo", "OOF"), ("Bar", "RAB")])
+@pytest.mark.parametrize(
+    "input_str,expected_output", [("Foo", "OOF"), ("Bar", "RAB")]
+)
 def test_cli_option_capitalize(cli: FunctionType, input_str, expected_output):
-    assert cli(["--capitalize", input_str]).output.rstrip().endswith(expected_output)
+    assert (
+        cli(["--capitalize", input_str])
+        .output.rstrip()
+        .endswith(expected_output)
+    )
