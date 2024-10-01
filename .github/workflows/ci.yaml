@@ -14,14 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["pypy3.10", "3.10", "3.11", "3.12"]
+        python: [
+          { "version": "pypy3.10" },
+          { "version": "3.10" },
+          { "version": "3.11" },
+          { "version": "3.12", "main_coverage": true }
+        ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Python ${{ matrix.python-version }}
+      - name: Setup Python ${{ matrix.python.version }}
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python.version }}
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: Install project (including test requirements)
@@ -32,14 +37,14 @@ jobs:
       - run: coverage xml
       - run: pip install genbadge[coverage]
       - run: genbadge coverage -i coverage.xml -o build/coverage/coverage.svg
-      - name: Upload Artifact ${{ matrix.python-version }}
+      - name: Upload Artifact ${{ matrix.python.version }}
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ matrix.python-version }}
+          name: coverage-${{ matrix.python.version }}
           path: build/coverage
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
-        if: ${{ matrix.python-version == "3.12" }}
+        if: matrix.python.main_coverage == true
         with:
           name: coverage
           path: build/coverage
