@@ -18,7 +18,7 @@ coverage-ci:
 
 .PHONY: lint
 lint:	## run static code checks
-	@ruff src tests
+	@ruff check src tests
 
 .PHONY: docs docs-live
 DOCS_TARGET?=build/docs
