@@ -14,7 +14,7 @@ coverage:	## collect coverage data and open report in browser
 		&& ( echo "Opening 'build/coverage/index.html'..."; open build/coverage/index.html )\
 		|| echo ""
 coverage-ci:
-	@CI=true $(MAKE) coverage
+	@CI=true "$(MAKE)" coverage
 
 .PHONY: lint
 lint:	## run static code checks
@@ -23,10 +23,10 @@ lint:	## run static code checks
 .PHONY: docs docs-live
 DOCS_TARGET?=build/docs
 docs:	## build documentation
-	cd docs && BUILDDIR=../${DOCS_TARGET} $(MAKE) -b html
+	cd docs && BUILDDIR=../${DOCS_TARGET} "$(MAKE)" -b html
 
 docs-live:	## serve documentation
-	cd docs && $(MAKE) serve
+	cd docs && "$(MAKE)" serve
 
 
 

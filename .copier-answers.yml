@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_src_path: C:\Users\dansc\projects\python-project-template\venv\Lib\site-packages\init_python_project
+_src_path: C:\Users\dansc\projects\python-project-template\src\init_python_project
 author: Dan Schaefer
 bumpversion: true
 default_branch: main
