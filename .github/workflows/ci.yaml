@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: Build maintainability badge
         run: |
           pip install anybadge radon
@@ -76,7 +76,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: Install doc requirements
         run: pip install -r docs/requirements.txt
       - name: Build docs
