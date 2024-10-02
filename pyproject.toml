@@ -71,6 +71,8 @@ dependencies = ["click"]
 [project.optional-dependencies]
 dev = ["black", "radon", "ruff", "bump2version"]
 test = ["pytest", "pytest-cov", "coverage[toml]"]
+# These are duplicated from docs/requirements.txt. pip does not have a feature to install only the dependencies yet. See https://github.com/pypa/pip/issues/11440
+docs = ["sphinx", "furo", "myst_parser", "sphinx-autoapi", "sphinx-autobuild"]
 
 # The following would provide a command line executable which executes
 # the function `main` from this package's cli module when invoked.
