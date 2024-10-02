@@ -69,7 +69,7 @@ dependencies = ["click"]
 # Similar to `dependencies` above, these must be valid existing
 # projects.
 [project.optional-dependencies]
-dev = ["black", "radon", "ruff", "bump2version"]
+dev = ["radon", "ruff", "bump2version"]
 test = ["pytest", "pytest-cov", "coverage[toml]"]
 # These are duplicated from docs/requirements.txt. pip does not have a feature to install only the dependencies yet. See https://github.com/pypa/pip/issues/11440
 docs = ["sphinx", "furo", "myst_parser", "sphinx-autoapi", "sphinx-autobuild"]
@@ -92,9 +92,6 @@ package-data = { "reddit_topics_aggregator" = ["*.dat"] }
 requires = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.black]
-line-length = 80
-
 [tool.coverage.run]
 command_line = "-m pytest --cov --cov-config=pyproject.toml --cov-branch --cov-report term-missing --cov-report html:build/coverage"
 source = ["src"]
@@ -106,7 +103,11 @@ exclude_lines = ["if __name__ == .__main__."]
 [tool.coverage.html]
 directory = "build/coverage"
 
-[lint]
+[tool.ruff]
+line-length = 80
+include = ["src/**/*.py", "tests/**/*.py"]
+
+[tool.ruff.lint]
 extend-select = ["I", "D", "UP", "PIE790", "C90", "N", "B"]
 # unnecessary-pass (PIE790)
 # I     isort
@@ -115,20 +116,19 @@ extend-select = ["I", "D", "UP", "PIE790", "C90", "N", "B"]
 # C90   mccabe complexity
 # N     pep8-naming
 # B     flake8-bugbear
-src = ["src", "tests"]
 ignore = ["E501", "D1"]
 # E501: line length violations
 # D1XX: missing docstring
 
-[lint.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[lint.mccabe]
+[tool.ruff.lint.mccabe]
 # Flag errors (`C901`) whenever the complexity level exceeds 5.
 max-complexity = 5
 # Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
 
-[lint.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402"]
 "docs/source/conf.py" = ["E402"]
 

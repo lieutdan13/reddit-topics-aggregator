@@ -24,6 +24,12 @@ tox:
 lint:	## run static code checks
 	@ruff check src tests
 
+.PHONY: format format-ci
+format:	## run static code formatting
+	@ruff format src tests
+format-ci:
+	@ruff format --check --diff src tests
+
 .PHONY: docs docs-live
 DOCS_TARGET?=build/docs
 docs:	## build documentation
