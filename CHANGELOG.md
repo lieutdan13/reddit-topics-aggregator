@@ -11,7 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - unit tests now run on Python 3.10, 3.11, and 3.12 in GitHub
 - `tox` configuration added to run locally
-- completely switches to `ruff` for fiel formatting
+- completely switches to `ruff` for file formatting
+- safety vulnerability scanning added locally
+- gh-action-pip-audit added to GitHub
 
 ### Fixed
 
