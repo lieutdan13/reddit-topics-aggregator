@@ -27,5 +27,8 @@ def get_package_version():
     _, package_version = get_package_metadata()
     return package_version
 
+__title__ = get_package_name()
+__version__ = get_package_version()
+
 if __name__ == "__main__":
     print(get_package_metadata())
