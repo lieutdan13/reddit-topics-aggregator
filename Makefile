@@ -6,6 +6,11 @@ install-dev:	## install project including all development dependencies
 maintainability:  ## run maintainability checks
 	@radon cc --total-average -nB -s src
 
+.PHONY: vulnerabilities safety
+vulnerabilities:  ## run vulnerability checks
+safety:
+	@safety check
+
 .PHONY: coverage coverage-ci
 coverage:	## collect coverage data and open report in browser
 	@pytest --doctest-modules --cov --cov-config=pyproject.toml --cov-branch --cov-report term --cov-report html:build/coverage

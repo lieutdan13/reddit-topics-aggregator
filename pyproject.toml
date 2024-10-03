@@ -69,7 +69,7 @@ dependencies = ["click~=8.1.7"]
 # Similar to `dependencies` above, these must be valid existing
 # projects.
 [project.optional-dependencies]
-dev = ["radon", "ruff", "bump2version"]
+dev = ["bump2version", "radon", "ruff", "safety", "tox"]
 test = ["pytest", "pytest-cov", "coverage[toml]"]
 # These are duplicated from docs/requirements.txt. pip does not have a feature to install only the dependencies yet. See https://github.com/pypa/pip/issues/11440
 docs = ["sphinx", "furo", "myst_parser", "sphinx-autoapi", "sphinx-autobuild"]
@@ -135,9 +135,14 @@ max-complexity = 5
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py310, py311, p312
+envlist = py310, py311, p312, safety
 
 [testenv]
 deps = pytest
 commands = pytest
+
+[testenv:safety]
+description = "Run safety to check for security vulnerabilities"
+deps = safety
+commands = safety check -i 70612
 """
