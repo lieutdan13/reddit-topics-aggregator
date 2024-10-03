@@ -11,7 +11,9 @@ vulnerabilities:  ## run vulnerability checks
 audit:
 	@pip-audit
 
-.PHONY: coverage coverage-ci
+.PHONY: test coverage coverage-ci
+test:  ## run unit tests
+	@pytest
 coverage:	## collect coverage data and open report in browser
 	@pytest --doctest-modules --cov --cov-config=pyproject.toml --cov-branch --cov-report term --cov-report html:build/coverage
 	@test -z "$(CI)" \
