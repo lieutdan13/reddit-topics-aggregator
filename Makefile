@@ -6,10 +6,10 @@ install-dev:	## install project including all development dependencies
 maintainability:  ## run maintainability checks
 	@radon cc --total-average -nB -s src
 
-.PHONY: vulnerabilities safety
+.PHONY: vulnerabilities audit
 vulnerabilities:  ## run vulnerability checks
-safety:
-	@safety check
+audit:
+	@pip-audit
 
 .PHONY: coverage coverage-ci
 coverage:	## collect coverage data and open report in browser

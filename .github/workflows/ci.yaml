@@ -69,7 +69,7 @@ jobs:
         with:
           name: maintainability
           path: maintainability.svg
-  vulnerabilities:
+  audit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
