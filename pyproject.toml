@@ -58,7 +58,7 @@ maintainers = [
 #
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
-dependencies = ["click~=8.1.7"]
+dependencies = ["click~=8.1.7", "tomli"]
 
 # List additional groups of dependencies here (e.g. development
 # dependencies). Users will be able to install these using the "extras"
@@ -70,7 +70,7 @@ dependencies = ["click~=8.1.7"]
 # projects.
 [project.optional-dependencies]
 dev = ["bump2version", "pip-audit", "radon", "ruff", "tox"]
-test = ["pytest", "pytest-cov", "coverage[toml]"]
+test = ["pytest", "pytest-cov", "pytest.mock", "coverage[toml]"]
 # These are duplicated from docs/requirements.txt. pip does not have a feature to install only the dependencies yet. See https://github.com/pypa/pip/issues/11440
 docs = ["sphinx", "furo", "myst_parser", "sphinx-autoapi", "sphinx-autobuild"]
 
