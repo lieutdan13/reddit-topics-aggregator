@@ -1,6 +1,9 @@
 import os
-from .package_metadata import __title__, __version__
+
 from praw import Reddit
+
+from .package_metadata import __title__, __version__
+
 
 class RedditClientBuilder:
     def __init__(self):

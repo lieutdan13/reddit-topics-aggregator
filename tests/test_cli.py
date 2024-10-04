@@ -1,4 +1,5 @@
 import functools
+from collections.abc import Generator
 from importlib.metadata import version
 from types import FunctionType
 
@@ -11,18 +12,22 @@ from reddit_topics_aggregator.cli import main
 
 
 @pytest.fixture
-def cli() -> FunctionType:
+def cli() -> Generator[FunctionType]:
     runner = CliRunner()
     yield functools.partial(runner.invoke, main)
 
 
 def test_cli_output(cli: FunctionType):
-    assert cli().output.rstrip() == "Hello, Reddit Topics Aggregator!"
+    result = cli()
+    assert result.exit_code == 0
+    assert result.output.rstrip().startswith("Usage: ")
 
 
 def test_cli_version(cli: FunctionType):
     expected_version = version("reddit-topics-aggregator")
-    assert cli(["--version"]).output.rstrip() == expected_version
+    result = cli(["--version"])
+    assert result.exit_code == 0
+    assert result.output.rstrip() == expected_version
 
 
 def test_cli_reverse(cli: FunctionType):

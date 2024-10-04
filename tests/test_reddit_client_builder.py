@@ -1,6 +1,6 @@
-import pytest
 from unittest.mock import patch
 
+import pytest
 from praw import Reddit
 
 from reddit_topics_aggregator.reddit_client_builder import RedditClientBuilder
@@ -17,6 +17,7 @@ def test_successful_build():
                .set_client_secret('test_secret')
                .set_username('test_user')
                .set_password('test_password')
+               .set_user_agent('test_user_agent')
                .build()
     )
 
@@ -25,6 +26,22 @@ def test_successful_build():
     assert reddit_client.config.client_secret == 'test_secret'
     assert reddit_client.config.username == 'test_user'
     assert reddit_client.config.password == 'test_password'
+    assert reddit_client.config.user_agent == 'test_user_agent'
+
+def test_default_user_agent():
+    """Test building Reddit client when all arguments are passed."""
+    builder = RedditClientBuilder()
+
+    # Set all required fields using method arguments
+    reddit_client = (
+        builder.set_client_id('test_id')
+               .set_client_secret('test_secret')
+               .set_username('test_user')
+               .set_password('test_password')
+               .build()
+    )
+
+    assert isinstance(reddit_client, Reddit)
     assert reddit_client.config.user_agent == f"reddit-topics-aggregator / {package_version}"
 
 
