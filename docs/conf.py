@@ -50,3 +50,10 @@ autoapi_dirs = ["../src/reddit_topics_aggregator"]
 
 # https://sphinx-autoapi.readthedocs.io/en/latest/how_to.html#how-to-include-type-annotations-as-types-in-rendered-docstrings
 autodoc_typehints = "description"
+
+# -- Options for sphinx-clock ----------------------------------------------
+# https://sphinx-click.readthedocs.io/en/latest/usage/
+
+extensions += [
+    "sphinx_click"
+]

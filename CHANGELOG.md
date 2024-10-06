@@ -22,6 +22,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [0.1.0]
+
+### Added
+
+- command `connect` - CLI sub-command to connect and show basic information about the authenticated user
+- unit tests now run on Python 3.10, 3.11, and 3.12 in GitHub
+- `tox` configuration added to run locally
+- completely switches to `ruff` for file formatting
+- pip-audit vulnerability scanning added locally
+- gh-action-pip-audit added to GitHub
+
 ## [0.0.1] - 2024-10-01
 
 Initial Release
