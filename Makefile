@@ -37,10 +37,14 @@ format:	## run static code formatting
 format-ci:
 	@ruff format --check --diff src tests
 
-.PHONY: docs docs-live
+.PHONY: docs docs-clean docs-live
 DOCS_TARGET?=build/docs
 docs:	## build documentation
 	cd docs && BUILDDIR=../${DOCS_TARGET} "$(MAKE)" -b html
+
+docs-clean:	## clears the docs directory and rebuilds
+	rm -rf ${DOCS_TARGET}
+	"$(MAKE)" docs
 
 docs-live:	## serve documentation
 	cd docs && "$(MAKE)" serve
