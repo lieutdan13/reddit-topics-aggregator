@@ -94,15 +94,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install doc requirements
-        run:  |
-          python -m venv env/
-          source env/bin/activate
-          pip install .[docs]
-          ls -latR env
+        run: pip install .[docs]
       - name: Build docs
-        run: |
-          source env/bin/activate
-          make docs
+        run: make docs
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:

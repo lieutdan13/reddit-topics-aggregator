@@ -70,9 +70,8 @@ dependencies = ["click~=8.1.7", "praw"]
 # projects.
 [project.optional-dependencies]
 dev = ["bump2version", "pip-audit", "radon", "ruff", "tox"]
+docs = ["sphinx", "furo", "myst_parser", "sphinx-autobuild", "sphinx-click"]
 test = ["pytest", "pytest-cov", "pytest.mock", "coverage[toml]"]
-# These are duplicated from docs/requirements.txt. pip does not have a feature to install only the dependencies yet. See https://github.com/pypa/pip/issues/11440
-docs = ["sphinx", "furo", "myst_parser", "sphinx-autoapi", "sphinx-autobuild", "sphinx-click"]
 
 # The following would provide a command line executable which executes
 # the function `reddit_topics_aggregator` from this package's cli module when invoked.
@@ -105,7 +104,7 @@ directory = "build/coverage"
 
 [tool.ruff]
 line-length = 80
-include = ["src/**/*.py", "tests/**/*.py"]
+include = ["src/**/*.py", "tests/**/*.py", "docs/**/*.py"]
 
 [tool.ruff.lint]
 extend-select = ["I", "D", "UP", "PIE790", "C90", "N", "B"]

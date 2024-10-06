@@ -44,7 +44,6 @@ myst_enable_extensions = [
 extensions += [
     "sphinx.ext.napoleon",  # required to parse google-style docstrings
     "sphinx.ext.autodoc",  # required to parse typehints
-    "autoapi.extension",
 ]
 autoapi_dirs = ["../src/reddit_topics_aggregator"]
 
