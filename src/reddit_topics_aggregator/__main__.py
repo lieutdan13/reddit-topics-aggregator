@@ -1,4 +1,4 @@
-from .cli import main
+from .cli import reddit_topics_aggregator
 
 if __name__ == "__main__":
-    main()
+    reddit_topics_aggregator()

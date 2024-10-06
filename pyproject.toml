@@ -75,9 +75,9 @@ test = ["pytest", "pytest-cov", "pytest.mock", "coverage[toml]"]
 docs = ["sphinx", "furo", "myst_parser", "sphinx-autoapi", "sphinx-autobuild", "sphinx-click"]
 
 # The following would provide a command line executable which executes
-# the function `main` from this package's cli module when invoked.
+# the function `reddit_topics_aggregator` from this package's cli module when invoked.
 [project.scripts] # optional
-reddit-topics-aggregator = "reddit_topics_aggregator.cli:main"
+reddit-topics-aggregator = "reddit_topics_aggregator.cli:reddit_topics_aggregator"
 
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.

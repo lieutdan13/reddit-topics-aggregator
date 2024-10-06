@@ -8,7 +8,7 @@ import praw.exceptions
 import pytest
 from click.testing import CliRunner
 
-from reddit_topics_aggregator.cli import main
+from reddit_topics_aggregator.cli import reddit_topics_aggregator
 
 # See https://click.palletsprojects.com/testing/
 
@@ -16,7 +16,7 @@ from reddit_topics_aggregator.cli import main
 @pytest.fixture
 def cli() -> Generator[FunctionType]:
     runner = CliRunner()
-    yield functools.partial(runner.invoke, main)
+    yield functools.partial(runner.invoke, reddit_topics_aggregator)
 
 
 def test_cli_output(cli: FunctionType):

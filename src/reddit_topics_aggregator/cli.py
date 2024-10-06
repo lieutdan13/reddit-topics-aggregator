@@ -9,18 +9,18 @@ from reddit_topics_aggregator.reddit_client_builder import RedditClientBuilder
 @click.version_option(
     message="%(version)s", package_name="reddit-topics-aggregator"
 )
-def main():
-    """Default cli command without a sub-command."""
+def reddit_topics_aggregator():
+    """Reddit Topics Aggregator is a tool used to aggregate hot, new, top, and rising topics from multiple subreddits."""
 
 
-@main.command()
+@reddit_topics_aggregator.command()
 @click.option("--client-id", default=None, help="Reddit client ID")
 @click.option("--client-secret", default=None, help="Reddit client secret")
 @click.option("--username", default=None, help="Reddit username")
 @click.option("--password", default=None, help="Reddit password")
 @click.option("--user-agent", default=None, help="Custom user agent")
 def connect(client_id, client_secret, username, password, user_agent):
-    """Connect to Reddit and display the authenticated user's information."""
+    """Connect to Reddit and display username, user id, and Karma about the authenticated user."""
     try:
         builder = RedditClientBuilder()
 
