@@ -1,6 +1,10 @@
 import pytest
 from unittest.mock import patch, mock_open
-from reddit_topics_aggregator.package_metadata import get_package_metadata, get_package_name, get_package_version
+from reddit_topics_aggregator.package_metadata import (
+    get_package_metadata,
+    get_package_name,
+    get_package_version,
+)
 
 # Sample valid pyproject.toml content
 valid_toml_content = b"""
@@ -26,7 +30,7 @@ description = "This is another section"
 def test_file_not_found():
     """Test if FileNotFoundError is raised when pyproject.toml doesn't exist."""
     with pytest.raises(FileNotFoundError):
-        get_package_metadata('nonexistent_pyproject.toml')
+        get_package_metadata("nonexistent_pyproject.toml")
 
 
 @patch("builtins.open", new_callable=mock_open, read_data=valid_toml_content)
@@ -38,7 +42,9 @@ def test_valid_pyproject(mock_exists, mock_file):
     assert package_version == "0.1.0"
 
 
-@patch("builtins.open", new_callable=mock_open, read_data=missing_keys_toml_content)
+@patch(
+    "builtins.open", new_callable=mock_open, read_data=missing_keys_toml_content
+)
 @patch("os.path.exists", return_value=True)
 def test_missing_keys(mock_exists, mock_file):
     """Test pyproject.toml with missing keys returns defaults."""

@@ -8,11 +8,13 @@ from .package_metadata import __title__, __version__
 class RedditClientBuilder:
     def __init__(self):
         # Setting the default user agent
-        self.user_agent = os.getenv('REDDIT_USER_AGENT') or f"{__title__} / {__version__}"
-        self.client_id = os.getenv('REDDIT_CLIENT_ID')
-        self.client_secret = os.getenv('REDDIT_CLIENT_SECRET')
-        self.username = os.getenv('REDDIT_USERNAME')
-        self.password = os.getenv('REDDIT_PASSWORD')
+        self.user_agent = (
+            os.getenv("REDDIT_USER_AGENT") or f"{__title__} / {__version__}"
+        )
+        self.client_id = os.getenv("REDDIT_CLIENT_ID")
+        self.client_secret = os.getenv("REDDIT_CLIENT_SECRET")
+        self.username = os.getenv("REDDIT_USERNAME")
+        self.password = os.getenv("REDDIT_PASSWORD")
 
     def set_client_id(self, client_id):
         """Set client ID from method argument or environment variable."""
@@ -53,7 +55,9 @@ class RedditClientBuilder:
             missing_fields.append("password")
 
         if missing_fields:
-            raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
+            raise ValueError(
+                f"Missing required fields: {', '.join(missing_fields)}"
+            )
 
         # Create and return the Reddit client
         return Reddit(
@@ -61,5 +65,5 @@ class RedditClientBuilder:
             client_secret=self.client_secret,
             username=self.username,
             password=self.password,
-            user_agent=self.user_agent
+            user_agent=self.user_agent,
         )

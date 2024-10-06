@@ -11,12 +11,12 @@ def get_package_metadata(pyproject_path=None):
         raise FileNotFoundError(f"{pyproject_path} not found")
 
     try:
-        with open(pyproject_path, 'rb') as file:
+        with open(pyproject_path, "rb") as file:
             pyproject_data = tomli.load(file)
             # Navigate to the relevant section of pyproject.toml
-            project_metadata = pyproject_data.get('project', {})
-            package_name = project_metadata.get('name', 'unknown-package')
-            package_version = project_metadata.get('version', '0.0.0')
+            project_metadata = pyproject_data.get("project", {})
+            package_name = project_metadata.get("name", "unknown-package")
+            package_version = project_metadata.get("version", "0.0.0")
             return package_name, package_version
     except (KeyError, FileNotFoundError, tomli.TOMLDecodeError) as e:
         raise RuntimeError(f"Error reading pyproject.toml: {e}") from e
