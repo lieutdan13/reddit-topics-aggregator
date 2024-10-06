@@ -58,7 +58,7 @@ maintainers = [
 #
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
-dependencies = ["click~=8.1.7", "praw", "tomli"]
+dependencies = ["click~=8.1.7", "praw"]
 
 # List additional groups of dependencies here (e.g. development
 # dependencies). Users will be able to install these using the "extras"
@@ -84,7 +84,7 @@ reddit-topics-aggregator = "reddit_topics_aggregator.cli:reddit_topics_aggregato
 [tool.setuptools]
 # If there are data files included in your packages that need to be
 # installed, specify them here.
-package-data = { "reddit_topics_aggregator" = ["*.dat", "pyproject.toml"] }
+package-data = { "reddit_topics_aggregator" = ["*.dat"] }
 
 [build-system]
 # These are the assumed default build requirements from pip:
