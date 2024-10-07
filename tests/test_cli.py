@@ -113,6 +113,7 @@ def test_connect_command_with_cli_options(mock_builder, cli: FunctionType):
         "REDDIT_CLIENT_SECRET": "env_secret",
         "REDDIT_USERNAME": "env_user",
         "REDDIT_PASSWORD": "env_password",
+        "REDDIT_USER_AGENT": "env_user_agent",
     },
 )
 def test_connect_command_with_env_vars(mock_builder, cli: FunctionType):
@@ -140,7 +141,7 @@ def test_connect_command_with_env_vars(mock_builder, cli: FunctionType):
     assert "250 comment karma" in result.output
 
     # Check that the builder used the environment variables
-    mock_builder.build_reddit_client_from_args.assert_called_once()
+    mock_builder.build_reddit_client_from_args.assert_called_once_with("env_id", "env_secret", "env_user", "env_password", "env_user_agent")
 
 
 @patch("reddit_topics_aggregator.cli.RedditClientBuilder")
