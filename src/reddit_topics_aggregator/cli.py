@@ -22,21 +22,9 @@ def reddit_topics_aggregator():
 def connect(client_id, client_secret, username, password, user_agent):
     """Connect to Reddit and display username, user id, and Karma about the authenticated user."""
     try:
-        builder = RedditClientBuilder()
-
-        if client_id:
-            builder.set_client_id(client_id)
-        if client_secret:
-            builder.set_client_secret(client_secret)
-        if username:
-            builder.set_username(username)
-        if password:
-            builder.set_password(password)
-        if user_agent:
-            builder.set_user_agent(user_agent)
-
-        # Build the Reddit client
-        reddit_client = builder.build()
+        reddit_client = RedditClientBuilder.build_reddit_client_from_args(
+            client_id, client_secret, username, password, user_agent
+        )
 
         # Fetch and display the authenticated user's information
         authenticated_user = reddit_client.user.me()

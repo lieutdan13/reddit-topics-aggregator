@@ -97,3 +97,32 @@ def test_missing_required_fields():
     builder.set_username("test_user")
     with pytest.raises(ValueError, match="password"):
         builder.build()
+
+
+def test_build_reddit_client_from_args():
+    """Test building Reddit client when using the staticmethod builder."""
+    # Set all required fields using method arguments
+    reddit_client = RedditClientBuilder.build_reddit_client_from_args(
+        client_id="test_id",
+        client_secret="test_secret",
+        username="test_user",
+        password="test_password",
+        user_agent="test_user_agent",
+    )
+
+    assert isinstance(reddit_client, Reddit)
+    assert reddit_client.config.client_id == "test_id"
+    assert reddit_client.config.client_secret == "test_secret"
+    assert reddit_client.config.username == "test_user"
+    assert reddit_client.config.password == "test_password"
+    assert reddit_client.config.user_agent == "test_user_agent"
+
+
+def test_build_reddit_client_from_no_args():
+    """Test building Reddit client when using the staticmethod builder and no args."""
+    # Set all required fields using method arguments
+
+    with pytest.raises(
+        ValueError, match="client_id, client_secret, username, password"
+    ):
+        RedditClientBuilder.build_reddit_client_from_args()

@@ -67,3 +67,28 @@ class RedditClientBuilder:
             password=self.password,
             user_agent=self.user_agent,
         )
+
+    @staticmethod
+    def build_reddit_client_from_args(
+        client_id=None,
+        client_secret=None,
+        username=None,
+        password=None,
+        user_agent=None,
+    ):
+        builder = RedditClientBuilder()
+
+        if client_id:
+            builder.set_client_id(client_id)
+        if client_secret:
+            builder.set_client_secret(client_secret)
+        if username:
+            builder.set_username(username)
+        if password:
+            builder.set_password(password)
+        if user_agent:
+            builder.set_user_agent(user_agent)
+
+            # Build the Reddit client
+        reddit_client = builder.build()
+        return reddit_client

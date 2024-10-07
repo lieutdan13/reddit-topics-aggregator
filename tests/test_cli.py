@@ -74,8 +74,7 @@ def test_connect_command_with_cli_options(mock_builder, cli: FunctionType):
     mock_reddit_user.comment_karma = 200
 
     # Set the mock builder's return value
-    mock_builder_instance = mock_builder.return_value
-    mock_builder_instance.build.return_value = mock_reddit_client
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
     mock_reddit_client.user.me.return_value = mock_reddit_user
 
     # Invoke the CLI command
@@ -101,13 +100,9 @@ def test_connect_command_with_cli_options(mock_builder, cli: FunctionType):
     assert "200 comment karma" in result.output
 
     # Ensure that the builder was called with the correct parameters
-    mock_builder_instance.set_client_id.assert_called_once_with("test_id")
-    mock_builder_instance.set_client_secret.assert_called_once_with(
-        "test_secret"
+    mock_builder.build_reddit_client_from_args.assert_called_once_with(
+        "test_id", "test_secret", "test_user", "test_password", None
     )
-    mock_builder_instance.set_username.assert_called_once_with("test_user")
-    mock_builder_instance.set_password.assert_called_once_with("test_password")
-    mock_builder_instance.build.assert_called_once()
 
 
 @patch("reddit_topics_aggregator.cli.RedditClientBuilder")
@@ -131,8 +126,7 @@ def test_connect_command_with_env_vars(mock_builder, cli: FunctionType):
     mock_reddit_user.comment_karma = 250
 
     # Set the mock builder's return value
-    mock_builder_instance = mock_builder.return_value
-    mock_builder_instance.build.return_value = mock_reddit_client
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
     mock_reddit_client.user.me.return_value = mock_reddit_user
 
     # Invoke the CLI command without providing CLI arguments
@@ -146,7 +140,7 @@ def test_connect_command_with_env_vars(mock_builder, cli: FunctionType):
     assert "250 comment karma" in result.output
 
     # Check that the builder used the environment variables
-    mock_builder_instance.build.assert_called_once()
+    mock_builder.build_reddit_client_from_args.assert_called_once()
 
 
 @patch("reddit_topics_aggregator.cli.RedditClientBuilder")
@@ -161,8 +155,7 @@ def test_connect_command_with_custom_user_agent(
     mock_reddit_user.id = "user_agent_id"
 
     # Set the mock builder's return value
-    mock_builder_instance = mock_builder.return_value
-    mock_builder_instance.build.return_value = mock_reddit_client
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
     mock_reddit_client.user.me.return_value = mock_reddit_user
 
     # Invoke the CLI command with a custom user agent
@@ -187,10 +180,13 @@ def test_connect_command_with_custom_user_agent(
     assert "Authenticated as: TestUserAgent" in result.output
 
     # Ensure the custom user agent was set
-    mock_builder_instance.set_user_agent.assert_called_once_with(
-        "custom-agent/1.0"
+    mock_builder.build_reddit_client_from_args.assert_called_once_with(
+        "test_id",
+        "test_secret",
+        "test_user",
+        "test_password",
+        "custom-agent/1.0",
     )
-    mock_builder_instance.build.assert_called_once()
 
 
 @patch("reddit_topics_aggregator.cli.RedditClientBuilder")
@@ -203,8 +199,7 @@ def test_connect_command_praw_exception(mock_builder, cli: FunctionType):
     )
 
     # Set the mock builder's return value
-    mock_builder_instance = mock_builder.return_value
-    mock_builder_instance.build.return_value = mock_reddit_client
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
 
     # Invoke the CLI command
     result = cli(
@@ -234,8 +229,7 @@ def test_connect_command_value_error(mock_builder, cli: FunctionType):
     mock_reddit_client.user.me.side_effect = ValueError("Test ValueError error")
 
     # Set the mock builder's return value
-    mock_builder_instance = mock_builder.return_value
-    mock_builder_instance.build.return_value = mock_reddit_client
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
 
     # Invoke the CLI command
     result = cli(
