@@ -3,7 +3,7 @@ import click
 from reddit_topics_aggregator.reddit_client_builder import RedditClientBuilder
 
 from .exception_handling import handle_cli_exception
-from .options import reddit_api_auth
+from .options import handle_missing_api_auth, reddit_api_auth
 
 
 @click.command()
@@ -11,6 +11,7 @@ from .options import reddit_api_auth
 def connect(client_id, client_secret, username, password, user_agent):
     """Connect to Reddit and display username, user id, and Karma about the authenticated user."""
     try:
+        handle_missing_api_auth(client_id, client_secret, username, password)
         reddit_client = RedditClientBuilder.build_reddit_client_from_args(
             client_id, client_secret, username, password, user_agent
         )

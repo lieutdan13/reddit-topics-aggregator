@@ -11,7 +11,7 @@ def test_cli_connect(cli: FunctionType):
         "Try 'reddit-topics-aggregator connect --help' for help."
     ) in result.output
     assert (
-        "Error: Missing option '--client-id'"
+        "Error: Missing required options: --client-id, --client-secret, --username, --password"
     ) in result.output
 
 

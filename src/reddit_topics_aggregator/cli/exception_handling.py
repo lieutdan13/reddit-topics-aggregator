@@ -3,6 +3,8 @@ import praw.exceptions
 
 
 def handle_cli_exception(e):
+    if isinstance(e, click.UsageError):
+        raise e
     if isinstance(e, praw.exceptions.PRAWException):
         handle_praw_exception(e)
     elif isinstance(e, ValueError):
