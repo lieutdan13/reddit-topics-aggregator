@@ -17,8 +17,8 @@ def cli() -> Generator[FunctionType]:
 
 @pytest.fixture(scope="session", autouse=True)
 def clear_env_vars() -> None:
-    del os.environ["REDDIT_CLIENT_ID"]
-    del os.environ["REDDIT_CLIENT_SECRET"]
-    del os.environ["REDDIT_USERNAME"]
-    del os.environ["REDDIT_PASSWORD"]
-    del os.environ["REDDIT_USER_AGENT"]
+    os.environ.pop("REDDIT_CLIENT_ID", None)
+    os.environ.pop("REDDIT_CLIENT_SECRET", None)
+    os.environ.pop("REDDIT_USERNAME", None)
+    os.environ.pop("REDDIT_PASSWORD", None)
+    os.environ.pop("REDDIT_USER_AGENT", None)

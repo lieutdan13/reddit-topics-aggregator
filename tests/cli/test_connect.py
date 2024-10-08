@@ -8,10 +8,10 @@ def test_cli_connect(cli: FunctionType):
     result = cli(["connect"])
     assert result.exit_code != 0
     assert (
-        "Configuration Error: Missing arguments: --client-id, --client-secret, --username, --password"
+        "Try 'reddit-topics-aggregator connect --help' for help."
     ) in result.output
     assert (
-        "Error: Help: Specify the arguments above and try again"
+        "Error: Missing option '--client-id'"
     ) in result.output
 
 
