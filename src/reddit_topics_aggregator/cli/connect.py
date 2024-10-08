@@ -1,9 +1,8 @@
 import click
-import praw
-import praw.exceptions
 
 from reddit_topics_aggregator.reddit_client_builder import RedditClientBuilder
 
+from .exception_handling import handle_cli_exception
 from .options import reddit_api_auth
 
 
@@ -23,36 +22,5 @@ def connect(client_id, client_secret, username, password, user_agent):
         click.echo(
             f"Karma: {authenticated_user.link_karma} link karma, {authenticated_user.comment_karma} comment karma"
         )
-
-    except praw.exceptions.PRAWException as e:
-        click.echo(f"Reddit Client Error: {e}", err=True)
-        raise click.ClickException(str(e)) from e
-    except ValueError as e:
-        if str(e).startswith("Missing required fields: "):
-            err_msg = "Missing arguments: "
-            missing_fields = extract_fields_from_exception(e)
-            missing_fields_str = "--" + (", --".join(missing_fields))
-
-            click.echo(
-                f"Configuration Error: {err_msg}{missing_fields_str}", err=True
-            )
-            raise click.ClickException(
-                "Help: Specify the arguments above and try again"
-            ) from e
-        else:
-            click.echo(f"Configuration Error: {e}", err=True)
-            raise click.ClickException(
-                "Help: Correct the issue above and try again"
-            ) from e
     except Exception as e:
-        click.echo(f"Error: {e}", err=True)
-        raise click.ClickException(str(e)) from e
-
-
-def extract_fields_from_exception(e):
-    return (
-        str(e)
-        .replace("Missing required fields: ", "")
-        .replace("_", "-")
-        .split(", ")
-    )
+        handle_cli_exception(e)
