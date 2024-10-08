@@ -25,7 +25,17 @@ Call the `reddit-topics-aggregator` command line interface like this:
 
 ```console
 $ reddit-topics-aggregator
-Hello, Reddit Topics Aggregator!
+Usage: reddit-topics-aggregator [OPTIONS] COMMAND [ARGS]...
+
+  Reddit Topics Aggregator is a tool used to aggregate hot, new, top, and
+  rising topics from multiple subreddits.
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  connect  Connect to Reddit and display username, user id, and Karma...
 ```
 
 Provide the `--help` option to see supported options and arguments.
