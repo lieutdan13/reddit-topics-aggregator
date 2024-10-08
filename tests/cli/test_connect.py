@@ -1,35 +1,7 @@
-import functools
-from collections.abc import Generator
-from importlib.metadata import version
 from types import FunctionType
 from unittest.mock import MagicMock, patch
 
 import praw.exceptions
-import pytest
-from click.testing import CliRunner
-
-from reddit_topics_aggregator.cli import reddit_topics_aggregator
-
-# See https://click.palletsprojects.com/testing/
-
-
-@pytest.fixture
-def cli() -> Generator[FunctionType]:
-    runner = CliRunner()
-    yield functools.partial(runner.invoke, reddit_topics_aggregator)
-
-
-def test_cli_output(cli: FunctionType):
-    result = cli()
-    assert result.exit_code == 0
-    assert result.output.rstrip().startswith("Usage: ")
-
-
-def test_cli_version(cli: FunctionType):
-    expected_version = version("reddit-topics-aggregator")
-    result = cli(["--version"])
-    assert result.exit_code == 0
-    assert result.output.rstrip() == expected_version
 
 
 def test_cli_connect(cli: FunctionType):
@@ -62,7 +34,7 @@ def test_cli_connect_401_authentication_error(cli: FunctionType):
 
 
 # Mock the builder and Reddit client behavior
-@patch("reddit_topics_aggregator.cli.RedditClientBuilder")
+@patch("reddit_topics_aggregator.cli.connect.RedditClientBuilder")
 def test_connect_command_with_cli_options(mock_builder, cli: FunctionType):
     """Test the connect command when all CLI options are provided."""
     # Create mock builder and mock Reddit client
@@ -105,7 +77,7 @@ def test_connect_command_with_cli_options(mock_builder, cli: FunctionType):
     )
 
 
-@patch("reddit_topics_aggregator.cli.RedditClientBuilder")
+@patch("reddit_topics_aggregator.cli.connect.RedditClientBuilder")
 @patch.dict(
     "os.environ",
     {
@@ -141,10 +113,12 @@ def test_connect_command_with_env_vars(mock_builder, cli: FunctionType):
     assert "250 comment karma" in result.output
 
     # Check that the builder used the environment variables
-    mock_builder.build_reddit_client_from_args.assert_called_once_with("env_id", "env_secret", "env_user", "env_password", "env_user_agent")
+    mock_builder.build_reddit_client_from_args.assert_called_once_with(
+        "env_id", "env_secret", "env_user", "env_password", "env_user_agent"
+    )
 
 
-@patch("reddit_topics_aggregator.cli.RedditClientBuilder")
+@patch("reddit_topics_aggregator.cli.connect.RedditClientBuilder")
 def test_connect_command_with_custom_user_agent(
     mock_builder, cli: FunctionType
 ):
@@ -190,7 +164,7 @@ def test_connect_command_with_custom_user_agent(
     )
 
 
-@patch("reddit_topics_aggregator.cli.RedditClientBuilder")
+@patch("reddit_topics_aggregator.cli.connect.RedditClientBuilder")
 def test_connect_command_praw_exception(mock_builder, cli: FunctionType):
     """Test the connect command when PRAWException is raised by the Reddit client."""
     # Create mock Reddit client and set it to raise PRAWException
@@ -222,7 +196,7 @@ def test_connect_command_praw_exception(mock_builder, cli: FunctionType):
     assert "Reddit Client Error: Test PRAW error" in result.output
 
 
-@patch("reddit_topics_aggregator.cli.RedditClientBuilder")
+@patch("reddit_topics_aggregator.cli.connect.RedditClientBuilder")
 def test_connect_command_value_error(mock_builder, cli: FunctionType):
     """Test the connect command when ValueError is raised by the Reddit client."""
     # Create mock Reddit client and set it to raise ValueError
