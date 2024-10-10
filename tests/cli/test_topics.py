@@ -8,21 +8,23 @@ from praw.models import Submission
 
 TEST_SUBREDDIT_NAME = "mysubreddit"
 
+
 @pytest.fixture(scope="function")
 def topic_cli_options() -> Generator[list[str]]:
     yield [
-    "topics",
-    "--client-id",
-    "test_id",
-    "--client-secret",
-    "test_secret",
-    "--username",
-    "test_user",
-    "--password",
-    "test_password",
-    "--subreddit",
-    TEST_SUBREDDIT_NAME,
-]
+        "topics",
+        "--client-id",
+        "test_id",
+        "--client-secret",
+        "test_secret",
+        "--username",
+        "test_user",
+        "--password",
+        "test_password",
+        "--subreddit",
+        TEST_SUBREDDIT_NAME,
+    ]
+
 
 TEST_TOPIC_SUBMISSON = Submission(
     reddit="praw.Reddit",
@@ -56,7 +58,9 @@ def test_topics_with_subreddit(cli: FunctionType):
     ) in result.output
 
 
-def test_topics_401_authentication_error(cli: FunctionType, topic_cli_options: list[str]):
+def test_topics_401_authentication_error(
+    cli: FunctionType, topic_cli_options: list[str]
+):
     result = cli(topic_cli_options)
     assert result.exit_code != 0
     assert "Error: received 401 HTTP response" in result.output
@@ -64,7 +68,9 @@ def test_topics_401_authentication_error(cli: FunctionType, topic_cli_options: l
 
 # Mock the builder and Reddit client behavior
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
-def test_topics_with_cli_options(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
+def test_topics_with_cli_options(
+    mock_builder, cli: FunctionType, topic_cli_options: list[str]
+):
     """Test the topics command when all CLI options are provided."""
     # Create mock builder and mock Reddit client
     mock_reddit_client = MagicMock()
@@ -98,7 +104,9 @@ def test_topics_with_cli_options(mock_builder, cli: FunctionType, topic_cli_opti
 
 # Mock the builder and Reddit client behavior
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
-def test_topics_with_top_option(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
+def test_topics_with_top_option(
+    mock_builder, cli: FunctionType, topic_cli_options: list[str]
+):
     """Test the topics command when all CLI options are provided and top option."""
     # Create mock builder and mock Reddit client
     count_topics = 5
@@ -182,7 +190,9 @@ def test_topics_with_env_vars(mock_builder, cli: FunctionType):
 
 
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
-def test_topics_handles_praw_exception(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
+def test_topics_handles_praw_exception(
+    mock_builder, cli: FunctionType, topic_cli_options: list[str]
+):
     """Test the topics command when PRAWException is raised by the Reddit client."""
     # Create mock Reddit client and set it to raise PRAWException
     mock_reddit_client = MagicMock()
@@ -202,7 +212,9 @@ def test_topics_handles_praw_exception(mock_builder, cli: FunctionType, topic_cl
 
 
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
-def test_topics_handles_value_error(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
+def test_topics_handles_value_error(
+    mock_builder, cli: FunctionType, topic_cli_options: list[str]
+):
     """Test the topics command when ValueError is raised by the Reddit client."""
     # Create mock Reddit client and set it to raise ValueError
     mock_reddit_client = MagicMock()
@@ -222,11 +234,15 @@ def test_topics_handles_value_error(mock_builder, cli: FunctionType, topic_cli_o
     assert "Help: Correct the issue above and try again" in result.output
 
 
-def test_topics_with_0_additional_options(cli: FunctionType, topic_cli_options: list[str]):
+def test_topics_with_0_additional_options(
+    cli: FunctionType, topic_cli_options: list[str]
+):
     """Test the topics command when all CLI options are provided and all limits set to 0."""
     # Invoke the CLI command
     cli_options = topic_cli_options
-    cli_options.extend(["--top", "0", "--new", "0", "--hot", "0", "--rising", "0"])
+    cli_options.extend(
+        ["--top", "0", "--new", "0", "--hot", "0", "--rising", "0"]
+    )
 
     result = cli(cli_options)
 

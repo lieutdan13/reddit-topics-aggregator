@@ -57,7 +57,7 @@ def topics(
     top,
     new,
     hot,
-    rising
+    rising,
 ):
     """Extract topics from Subreddits."""
     try:
