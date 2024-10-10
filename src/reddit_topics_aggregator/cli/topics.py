@@ -14,7 +14,7 @@ from .options import handle_missing_api_auth, reddit_api_auth
     required=True,
     default=None,
     multiple=True,
-    help='The name of the Subreddits to query. Can be specified without the "r/". e.g. programming or programminghumor',
+    help='The name of the Subreddits to query. Must be specified without the "r/". e.g. programming or programminghumor',
 )
 @click.option(
     "--top",
@@ -40,6 +40,14 @@ from .options import handle_missing_api_auth, reddit_api_auth
     type=int,
     help="Number of hottest submissions to retrieve from the subreddits",
 )
+@click.option(
+    "--rising",
+    required=False,
+    default=10,
+    show_default=True,
+    type=int,
+    help="Number of submissions rising in popularity to retrieve from the subreddits",
+)
 def topics(
     client_id,
     client_secret,
@@ -50,13 +58,14 @@ def topics(
     top,
     new,
     hot,
+    rising
 ):
     """Extract topics from Subreddits."""
     try:
         handle_missing_api_auth(client_id, client_secret, username, password)
         if all([hot < 1, new < 1, top < 1]):
             raise click.UsageError(
-                "Must provide a positive value for one or more of: '--hot', '--new', '--top'"
+                "Must provide a positive value for one or more of: '--hot', '--new', '--rising', '--top'"
             )
         reddit_client = RedditClientBuilder.build_reddit_client_from_args(
             client_id, client_secret, username, password, user_agent
@@ -65,12 +74,14 @@ def topics(
             ## TODO Start refactor
             topics = []
             this_subreddit = reddit_client.subreddit(sub)
-            if top > 0:
-                topics.extend(this_subreddit.top(limit=top))
-            if new > 0:
-                topics.extend(this_subreddit.new(limit=new))
             if hot > 0:
                 topics.extend(this_subreddit.hot(limit=hot))
+            if new > 0:
+                topics.extend(this_subreddit.new(limit=new))
+            if rising > 0:
+                topics.extend(this_subreddit.rising(limit=rising))
+            if top > 0:
+                topics.extend(this_subreddit.top(limit=top))
             ## TODO End refactor
 
             for topic in topics:

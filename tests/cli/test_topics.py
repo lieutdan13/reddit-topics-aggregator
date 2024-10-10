@@ -226,7 +226,7 @@ def test_topics_with_0_additional_options(cli: FunctionType, topic_cli_options: 
     """Test the topics command when all CLI options are provided and all limits set to 0."""
     # Invoke the CLI command
     cli_options = topic_cli_options
-    cli_options.extend(["--top", "0", "--new", "0", "--hot", "0"])
+    cli_options.extend(["--top", "0", "--new", "0", "--hot", "0", "--rising", "0"])
 
     result = cli(cli_options)
 
@@ -236,7 +236,7 @@ def test_topics_with_0_additional_options(cli: FunctionType, topic_cli_options: 
         "Try 'reddit-topics-aggregator topics --help' for help."
     ) in result.output
     assert (
-        "Error: Must provide a positive value for one or more of: '--hot', '--new', '--top'"
+        "Error: Must provide a positive value for one or more of: '--hot', '--new', '--rising', '--top'"
         in result.output
     )
 
@@ -247,7 +247,6 @@ def test_topics_with_0_top_option(mock_builder, cli: FunctionType, topic_cli_opt
     # Create mock Reddit client and subreddit
     mock_reddit_client = MagicMock()
     mock_subreddit = MagicMock()
-    mock_subreddit.top.return_value = [TEST_TOPIC_SUBMISSON]
 
     # Set the mock builder's return value
     mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
@@ -261,9 +260,10 @@ def test_topics_with_0_top_option(mock_builder, cli: FunctionType, topic_cli_opt
 
     # Assert that the command executed successfully
     assert result.exit_code == 0
-    mock_subreddit.top.assert_not_called()
-    mock_subreddit.new.assert_called()
     mock_subreddit.hot.assert_called()
+    mock_subreddit.new.assert_called()
+    mock_subreddit.rising.assert_called()
+    mock_subreddit.top.assert_not_called()
 
 
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
@@ -272,7 +272,6 @@ def test_topics_with_0_new_option(mock_builder, cli: FunctionType, topic_cli_opt
     # Create mock Reddit client and subreddit
     mock_reddit_client = MagicMock()
     mock_subreddit = MagicMock()
-    mock_subreddit.top.return_value = [TEST_TOPIC_SUBMISSON]
 
     # Set the mock builder's return value
     mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
@@ -285,9 +284,10 @@ def test_topics_with_0_new_option(mock_builder, cli: FunctionType, topic_cli_opt
 
     # Assert that the command executed successfully
     assert result.exit_code == 0
-    mock_subreddit.new.assert_not_called()
-    mock_subreddit.top.assert_called()
     mock_subreddit.hot.assert_called()
+    mock_subreddit.new.assert_not_called()
+    mock_subreddit.rising.assert_called()
+    mock_subreddit.top.assert_called()
 
 
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
@@ -296,7 +296,6 @@ def test_topics_with_0_hot_option(mock_builder, cli: FunctionType, topic_cli_opt
     # Create mock Reddit client and subreddit
     mock_reddit_client = MagicMock()
     mock_subreddit = MagicMock()
-    mock_subreddit.top.return_value = [TEST_TOPIC_SUBMISSON]
 
     # Set the mock builder's return value
     mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
@@ -311,4 +310,29 @@ def test_topics_with_0_hot_option(mock_builder, cli: FunctionType, topic_cli_opt
     assert result.exit_code == 0
     mock_subreddit.hot.assert_not_called()
     mock_subreddit.new.assert_called()
+    mock_subreddit.rising.assert_called()
     mock_subreddit.top.assert_called()
+
+
+@patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
+def test_topics_with_0_rising_option(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
+    """Test the topics command when all CLI options are provided and --rising=0."""
+    # Create mock Reddit client and subreddit
+    mock_reddit_client = MagicMock()
+    mock_subreddit = MagicMock()
+
+    # Set the mock builder's return value
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
+    mock_reddit_client.subreddit.return_value = mock_subreddit
+    # Invoke the CLI command
+    cli_options = topic_cli_options
+    cli_options.extend(["--rising", "0"])
+
+    result = cli(cli_options)
+
+    # Assert that the command executed successfully
+    assert result.exit_code == 0
+    mock_subreddit.rising.assert_not_called()
+    mock_subreddit.new.assert_called()
+    mock_subreddit.top.assert_called()
+    mock_subreddit.hot.assert_called()
