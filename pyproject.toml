@@ -102,6 +102,12 @@ exclude_lines = ["if __name__ == .__main__."]
 [tool.coverage.html]
 directory = "build/coverage"
 
+[tool.pytest.ini_options]
+markers = [
+    "wip: marks tests as work in progress (deselect with '-m \"not wip\"')"
+]
+addopts = "-m 'not wip'"
+
 [tool.ruff]
 line-length = 80
 include = ["src/**/*.py", "tests/**/*.py", "docs/**/*.py"]
