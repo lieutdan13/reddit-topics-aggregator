@@ -133,6 +133,9 @@ def test_topics_with_top_option(mock_builder, cli: FunctionType, topic_cli_optio
         == count_topics
     )
     assert result.output.count("Content: topic content") == count_topics
+    mock_subreddit.top.assert_called_once_with(limit=count_topics)
+    mock_subreddit.hot.assert_called_once_with(limit=10)
+    mock_subreddit.new.assert_called_once_with(limit=10)
 
 
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
@@ -148,7 +151,7 @@ def test_topics_with_top_option(mock_builder, cli: FunctionType, topic_cli_optio
 )
 def test_topics_with_env_vars(mock_builder, cli: FunctionType):
     """Test the topics command using environment variables."""
-    # Create mock Reddit client and user
+    # Create mock Reddit client and subreddit
     mock_reddit_client = MagicMock()
     mock_subreddit = MagicMock()
     mock_subreddit.display_name = TEST_SUBREDDIT_NAME
@@ -220,10 +223,10 @@ def test_topics_handles_value_error(mock_builder, cli: FunctionType, topic_cli_o
 
 
 def test_topics_with_0_additional_options(cli: FunctionType, topic_cli_options: list[str]):
-    """Test the topics command when all CLI options are provided and --top=0, --new=0."""
+    """Test the topics command when all CLI options are provided and all limits set to 0."""
     # Invoke the CLI command
     cli_options = topic_cli_options
-    cli_options.extend(["--top", "0", "--new", "0"])
+    cli_options.extend(["--top", "0", "--new", "0", "--hot", "0"])
 
     result = cli(cli_options)
 
@@ -233,7 +236,7 @@ def test_topics_with_0_additional_options(cli: FunctionType, topic_cli_options: 
         "Try 'reddit-topics-aggregator topics --help' for help."
     ) in result.output
     assert (
-        "Error: Must provide a positive value for one or more of: '--new', '--top'"
+        "Error: Must provide a positive value for one or more of: '--hot', '--new', '--top'"
         in result.output
     )
 
@@ -241,6 +244,15 @@ def test_topics_with_0_additional_options(cli: FunctionType, topic_cli_options: 
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
 def test_topics_with_0_top_option(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
     """Test the topics command when all CLI options are provided and --top=0."""
+    # Create mock Reddit client and subreddit
+    mock_reddit_client = MagicMock()
+    mock_subreddit = MagicMock()
+    mock_subreddit.top.return_value = [TEST_TOPIC_SUBMISSON]
+
+    # Set the mock builder's return value
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
+    mock_reddit_client.subreddit.return_value = mock_subreddit
+
     # Invoke the CLI command
     cli_options = topic_cli_options
     cli_options.extend(["--top", "0"])
@@ -249,11 +261,22 @@ def test_topics_with_0_top_option(mock_builder, cli: FunctionType, topic_cli_opt
 
     # Assert that the command executed successfully
     assert result.exit_code == 0
+    mock_subreddit.top.assert_not_called()
+    mock_subreddit.new.assert_called()
+    mock_subreddit.hot.assert_called()
 
 
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
 def test_topics_with_0_new_option(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
     """Test the topics command when all CLI options are provided and --new=0."""
+    # Create mock Reddit client and subreddit
+    mock_reddit_client = MagicMock()
+    mock_subreddit = MagicMock()
+    mock_subreddit.top.return_value = [TEST_TOPIC_SUBMISSON]
+
+    # Set the mock builder's return value
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
+    mock_reddit_client.subreddit.return_value = mock_subreddit
     # Invoke the CLI command
     cli_options = topic_cli_options
     cli_options.extend(["--new", "0"])
@@ -262,3 +285,30 @@ def test_topics_with_0_new_option(mock_builder, cli: FunctionType, topic_cli_opt
 
     # Assert that the command executed successfully
     assert result.exit_code == 0
+    mock_subreddit.new.assert_not_called()
+    mock_subreddit.top.assert_called()
+    mock_subreddit.hot.assert_called()
+
+
+@patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
+def test_topics_with_0_hot_option(mock_builder, cli: FunctionType, topic_cli_options: list[str]):
+    """Test the topics command when all CLI options are provided and --hot=0."""
+    # Create mock Reddit client and subreddit
+    mock_reddit_client = MagicMock()
+    mock_subreddit = MagicMock()
+    mock_subreddit.top.return_value = [TEST_TOPIC_SUBMISSON]
+
+    # Set the mock builder's return value
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
+    mock_reddit_client.subreddit.return_value = mock_subreddit
+    # Invoke the CLI command
+    cli_options = topic_cli_options
+    cli_options.extend(["--hot", "0"])
+
+    result = cli(cli_options)
+
+    # Assert that the command executed successfully
+    assert result.exit_code == 0
+    mock_subreddit.hot.assert_not_called()
+    mock_subreddit.new.assert_called()
+    mock_subreddit.top.assert_called()

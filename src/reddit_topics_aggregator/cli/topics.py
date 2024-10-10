@@ -32,6 +32,14 @@ from .options import handle_missing_api_auth, reddit_api_auth
     type=int,
     help="Number of newest submissions to retrieve from the subreddits",
 )
+@click.option(
+    "--hot",
+    required=False,
+    default=10,
+    show_default=True,
+    type=int,
+    help="Number of hottest submissions to retrieve from the subreddits",
+)
 def topics(
     client_id,
     client_secret,
@@ -41,13 +49,14 @@ def topics(
     subreddit,
     top,
     new,
+    hot,
 ):
     """Extract topics from Subreddits."""
     try:
         handle_missing_api_auth(client_id, client_secret, username, password)
-        if top < 1 and new < 1:
+        if all([hot < 1, new < 1, top < 1]):
             raise click.UsageError(
-                "Must provide a positive value for one or more of: '--new', '--top'"
+                "Must provide a positive value for one or more of: '--hot', '--new', '--top'"
             )
         reddit_client = RedditClientBuilder.build_reddit_client_from_args(
             client_id, client_secret, username, password, user_agent
@@ -60,6 +69,8 @@ def topics(
                 topics.extend(this_subreddit.top(limit=top))
             if new > 0:
                 topics.extend(this_subreddit.new(limit=new))
+            if hot > 0:
+                topics.extend(this_subreddit.hot(limit=hot))
             ## TODO End refactor
 
             for topic in topics:
