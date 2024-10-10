@@ -90,6 +90,45 @@ def test_topics_with_cli_options(mock_builder, cli: FunctionType):
     )
 
 
+# Mock the builder and Reddit client behavior
+@patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
+def test_topics_with_top_option(mock_builder, cli: FunctionType):
+    """Test the topics command when all CLI options are provided and top option."""
+    # Create mock builder and mock Reddit client
+    count_topics = 5
+    mock_reddit_client = MagicMock()
+    mock_subreddit = MagicMock()
+    mock_subreddit.display_name = "mysubreddit"
+    mock_subreddit.title = "My Subreddit"
+    mock_subreddit.top.return_value = [TEST_TOPIC_SUBMISSON] * count_topics
+
+    # Set the mock builder's return value
+    mock_builder.build_reddit_client_from_args.return_value = mock_reddit_client
+    mock_reddit_client.subreddit.return_value = mock_subreddit
+
+    # Invoke the CLI command
+
+    cli_options = TEST_TOPIC_CLI_OPTIONS
+    cli_options.extend(["--top", str(count_topics)])
+    print(cli_options)
+    result = cli(cli_options)
+
+    # Assert that the command executed successfully
+    assert result.exit_code == 0
+    assert (
+        result.output.count("Subreddit: r/mysubreddit (My Subreddit)")
+        == count_topics
+    )
+    assert result.output.count("Topic: topic title") == count_topics
+    assert (
+        result.output.count(
+            "Topic URL: https://www.reddit.com/r/mysubreddit/comments/1fxukkw/topic_title/"
+        )
+        == count_topics
+    )
+    assert result.output.count("Content: topic content") == count_topics
+
+
 @patch("reddit_topics_aggregator.cli.topics.RedditClientBuilder")
 @patch.dict(
     "os.environ",
@@ -172,3 +211,22 @@ def test_topics_handles_value_error(mock_builder, cli: FunctionType):
     assert result.exit_code != 0
     assert "Configuration Error: Test ValueError error" in result.output
     assert "Help: Correct the issue above and try again" in result.output
+
+
+def test_topics_with_0_top_option(cli: FunctionType):
+    """Test the topics command when all CLI options are provided and --top=0."""
+    # Invoke the CLI command
+    cli_options = TEST_TOPIC_CLI_OPTIONS
+    cli_options.extend(["--top", "0"])
+
+    result = cli(cli_options)
+
+    # Assert that the command executed successfully
+    assert result.exit_code != 0
+    assert (
+        "Try 'reddit-topics-aggregator topics --help' for help."
+    ) in result.output
+    assert (
+        "Error: Must provide a positive value for one or more of: '--top'"
+        in result.output
+    )
