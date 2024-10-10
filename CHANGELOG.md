@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - environment variable defaults are now documented and used
+- command `topics` - CLI sub-command to retrieve and display topic submissions for the specified subreddits
 
 ### Fixed
 

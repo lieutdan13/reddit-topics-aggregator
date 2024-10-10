@@ -1,6 +1,7 @@
 import click
 
 from reddit_topics_aggregator.cli.connect import connect
+from reddit_topics_aggregator.cli.topics import topics
 
 
 @click.group()
@@ -12,3 +13,4 @@ def reddit_topics_aggregator():
 
 
 reddit_topics_aggregator.add_command(connect)
+reddit_topics_aggregator.add_command(topics)
