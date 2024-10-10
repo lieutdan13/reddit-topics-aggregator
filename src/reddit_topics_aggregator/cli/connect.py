@@ -1,7 +1,6 @@
 import click
 
-from reddit_topics_aggregator.reddit_client_builder import RedditClientBuilder
-
+from ..reddit_client_builder import RedditClientBuilder
 from .exception_handling import handle_cli_exception
 from .options import handle_missing_api_auth, reddit_api_auth
 
