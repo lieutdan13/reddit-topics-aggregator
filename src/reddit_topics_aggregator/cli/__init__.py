@@ -1,7 +1,7 @@
 import click
 
-from reddit_topics_aggregator.cli.connect import connect
-from reddit_topics_aggregator.cli.topics import topics
+from .connect import connect
+from .topics import topics
 
 
 @click.group()
