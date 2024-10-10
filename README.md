@@ -35,7 +35,8 @@ Options:
   --help     Show this message and exit.
 
 Commands:
-  connect  Connect to Reddit and display username, user id, and Karma...
+  connect  Retrieve info about the authenticated Reddit user.
+  topics   Retrieve Subreddit topic submissions
 ```
 
 Provide the `--help` option to see supported options and arguments.

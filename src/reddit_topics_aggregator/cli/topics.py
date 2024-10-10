@@ -5,7 +5,11 @@ from .exception_handling import handle_cli_exception
 from .options import handle_missing_api_auth, reddit_api_auth
 
 
-@click.command()
+@click.command(
+    name="topics",
+    help="Retrieve Subreddit topic submissions (hottest, newest, top, rising).",
+    short_help="Retrieve Subreddit topic submissions",
+)
 @reddit_api_auth
 @click.option(
     "--subreddit",
@@ -59,7 +63,6 @@ def topics(
     hot,
     rising,
 ):
-    """Extract topics from Subreddits."""
     try:
         handle_missing_api_auth(client_id, client_secret, username, password)
         if all([hot < 1, new < 1, top < 1]):
