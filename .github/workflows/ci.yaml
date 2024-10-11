@@ -85,6 +85,7 @@ jobs:
         run: |
           python -m venv env/
           source env/bin/activate
+          python -m pip install -U pip
           make install-dev
       - uses: pypa/gh-action-pip-audit@v1.1.0
         with:
