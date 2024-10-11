@@ -30,10 +30,14 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: Install project (including test requirements)
-        run: pip install .[test]
+        run: |
+          python -m venv env/
+          source env/bin/activate
+          pip install .[test]
       - name: Run tests and collect coverage
         run: |
-          make coverage
+          source env/bin/activate
+          make coverage-ci
       - run: coverage xml
       - run: pip install genbadge[coverage]
       - run: genbadge coverage -i coverage.xml -o build/coverage/coverage.svg
