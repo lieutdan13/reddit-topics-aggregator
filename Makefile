@@ -15,6 +15,8 @@ audit:
 test:  ## run unit tests
 	@pytest
 coverage:	## collect coverage data and open report in browser
+	pwd
+	find . -type d
 	@pytest --doctest-modules --cov --cov-config=pyproject.toml --cov-branch --cov-report term-missing --cov-report html:build/coverage --cache-clear -vvvv
 	@test -z "$(CI)" \
 		&& ( echo "Opening 'build/coverage/index.html'..."; open build/coverage/index.html || start build/coverage/index.html )\
