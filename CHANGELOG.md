@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add support for markdown output
 - add count of articles if duplicate
 - remove pinned topics
+- fix CI coverage report (0%)
+- default to 0 topics
+- add --all which will set the number of submissions for every other option
 
 ## [Unreleased]
 
