@@ -107,7 +107,7 @@ directory = "build/coverage"
 markers = [
     "wip: marks tests as work in progress (deselect with '-m \"not wip\"')"
 ]
-addopts = "-m 'not wip' tests/"
+addopts = "-m 'not wip'"
 
 [tool.ruff]
 line-length = 80
