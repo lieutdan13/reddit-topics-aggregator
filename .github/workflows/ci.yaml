@@ -36,14 +36,17 @@ jobs:
       - name: Run tests and collect coverage
         run: |
           make coverage-ci
-      - run: coverage xml
-      - run: pip install genbadge[coverage]
-      - run: genbadge coverage -i coverage.xml -o build/coverage/coverage.svg
       - name: Upload Artifact ${{ matrix.python.version }}
         uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.python.version }}
           path: build/coverage
+      - run: coverage xml
+        if: matrix.python.main_coverage == true
+      - run: pip install genbadge[coverage]
+        if: matrix.python.main_coverage == true
+      - run: genbadge coverage -i coverage.xml -o build/coverage/coverage.svg
+        if: matrix.python.main_coverage == true
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         if: matrix.python.main_coverage == true
