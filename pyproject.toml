@@ -93,7 +93,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.coverage.run]
 command_line = "-m pytest --cov --cov-config=pyproject.toml --cov-branch --cov-report term-missing --cov-report html:build/coverage"
-debug = ["config"]
+# debug = ["config"]
 source_pkgs = ["reddit_topics_aggregator"]
 
 [tool.coverage.report]
