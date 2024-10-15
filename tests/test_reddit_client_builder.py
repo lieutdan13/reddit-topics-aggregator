@@ -5,7 +5,7 @@ from praw import Reddit
 
 from reddit_topics_aggregator.reddit_client_builder import RedditClientBuilder
 
-package_version = "0.2.0"
+package_version = "0.2.1"
 
 
 def test_successful_build():
