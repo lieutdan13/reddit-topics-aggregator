@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- fixes issue where missing --hot, --new, and --top, but present --rising triggered error
+
 ### Changed
 
 ### Removed
