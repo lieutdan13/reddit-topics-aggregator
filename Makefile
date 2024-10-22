@@ -1,6 +1,6 @@
 .PHONY: install-dev
 install-dev:	## install project including all development dependencies
-	pip install -e .[test,dev,docs]
+	pip install -Ue .[test,dev,docs]
 
 .PHONY: maintainability
 maintainability:  ## run maintainability checks
