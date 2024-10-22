@@ -65,7 +65,7 @@ def topics(
 ):
     try:
         handle_missing_api_auth(client_id, client_secret, username, password)
-        if all([hot < 1, new < 1, top < 1]):
+        if all([hot < 1, new < 1, rising < 1, top < 1]):
             raise click.UsageError(
                 "Must provide a positive value for one or more of: '--hot', '--new', '--rising', '--top'"
             )

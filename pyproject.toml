@@ -99,6 +99,7 @@ source_pkgs = ["reddit_topics_aggregator"]
 [tool.coverage.report]
 omit = ["**/setup.py", "**/__init__.py", "**/__main__.py"]
 exclude_lines = ["if __name__ == .__main__."]
+fail_under = 95
 
 [tool.coverage.html]
 directory = "build/coverage"
